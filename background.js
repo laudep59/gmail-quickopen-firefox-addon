@@ -1,5 +1,5 @@
-// Quand on ouvre un lien dans un nouvel onglet, on vérifie si c'est un lien vers un popout Gmail
-// Si c'est le cas et qu'on a demandé à ouvrir maximisé, on maximise la fenêtre
+// When opening a link in a new tab, check if it's a link to a Gmail popout
+// If it is and we asked to open maximized, maximize the window
 browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
     const urlPattern = /^https:\/\/mail\.google\.com\/mail\/u\/\d+\/popout/;

@@ -1,28 +1,28 @@
-// Pour stocker les lignes déjà traitées
+// For storing already processed rows
 const processedRows = new Set();
 
 function addButton(row) {
 
-    // Vérifiez si le bouton existe déjà
+    // Check if the row already has a button
     if (row.querySelector('.custom-button')) return;
 
-    // Créez le bouton
+    // Create a button element
     const button = document.createElement('button');
     button.className = 'custom-button';
     button.style.marginLeft = '10px';
-    button.style.cursor = 'pointer'; // Ajoutez le curseur de type "main"
+    button.style.cursor = 'pointer'; 
 
-    // Obteneir le texte du bouton depuis les messages de traduction
+    // Translate the button text
     const message = browser.i18n.getMessage('openButton');
     button.textContent = message;
 
-    // Ajouter un écouteur d'événements
+    // Add a click event listener
     button.addEventListener('click', (event) => {
 
-        event.stopPropagation(); // Empêche les éléments parents d'exécuter leur code
-        event.preventDefault();  // Empêche le comportement par défaut
+        event.stopPropagation(); // Prevent the event from bubbling up
+        event.preventDefault();  // Prevent the default action
 
-        // Simulez un Shift + Click sur l'élément parent
+        // Simulate a shift + click event on the row
         const parentElement = row.closest('tr');
         if (parentElement) {
             const shiftClickEvent = new MouseEvent('click', {
@@ -35,7 +35,7 @@ function addButton(row) {
 
     });
 
-    // Ajoutez le bouton à la ligne
+    // Add the button to the toolbar
     const toolbar = row.querySelector('ul[role="toolbar"][id^=":"]');
     if (toolbar) {
         const li = document.createElement('li');
@@ -45,7 +45,7 @@ function addButton(row) {
 
 }
 
-// Recherchez les lignes existantes et ajoutez des boutons
+// Find all rows and process them
 function processNewRows(rows) {
     rows.forEach(row => {
         if (!processedRows.has(row)) {
@@ -59,7 +59,7 @@ function processNewRows(rows) {
     });
 }
 
-// Fonction pour observer les mutations du dom
+// Function to observe mutations
 function observeMutations() {
 
     const observer = new MutationObserver(mutations => {
@@ -69,7 +69,7 @@ function observeMutations() {
             mutation.addedNodes.forEach(node => {
                 if (node.nodeType === 1) {
 
-                    // Vérifier si le nœud ajouté est un div avec role="alert"
+                    // Check if the node is an alert
                     if (node.matches('div[role="alert"]')) {
                         browser.storage.local.get('hideAlerts').then(result => {
                             if (result.hideAlerts) {
@@ -79,7 +79,7 @@ function observeMutations() {
                         });
                     }
 
-                    // Un node représentant une ligne / mail
+                    // A row containing a mail
                     if (node.matches('tr[id^=":"]')) {
                         newRows.add(node);
                     } else {
@@ -89,25 +89,25 @@ function observeMutations() {
                 }
             });
 
-            // En cas de modification d'un attribut
+            // In case of attribute changes
             if (mutation.type === 'attributes' && mutation.target.matches('tr[id^=":"]')) {
                 newRows.add(mutation.target);
             }
 
         });
 
-        // Traitez les nouvelles lignes
+        // Handle the new rows
         if (newRows.size > 0) {
             processNewRows(Array.from(newRows));
         }
 
     });
 
-    // Commencez à observer les mutations
+    // Start observing the body and its subtree for mutations
     const config = { childList: true, subtree: true, attributes: true };
     observer.observe(document.body, config);
     
 }
 
-// Initialisez l'observation des mutations
+// Initialize mutation observer
 observeMutations();

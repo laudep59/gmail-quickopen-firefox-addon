@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkboxHideAlerts = document.getElementById('hideAlertsCheckbox');
     const applyButton = document.getElementById('applyButton');
 
-    // Charger la préférence enregistrée
+    // Load the options
     browser.storage.local.get('autoMaximize').then(result => {
         checkboxMaximize.checked = result.autoMaximize || false;
     });
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         checkboxHideAlerts.checked = result.hideAlerts || false;
     });
 
-    // Afficher le bouton "Appliquer" lorsque l'utilisateur change la valeur
+    // Disable the apply button if the options are changed
     checkboxMaximize.addEventListener('change', () => {
         applyButton.disabled = false;
     });
@@ -20,18 +20,18 @@ document.addEventListener('DOMContentLoaded', () => {
         applyButton.disabled = false;
     });
 
-    // Sauvegarder l'état des options lorsque l'utilisateur clique sur "Appliquer"
+    // Save the options and reload the Gmail tabs (try to)
     applyButton.addEventListener('click', () => {
         browser.storage.local.set({ hideAlerts: checkboxHideAlerts.checked, autoMaximize: checkboxMaximize.checked }).then(() => {
             applyButton.disabled = true;
 
             browser.tabs.query({ url: "*://mail.google.com/*" }).then(tabs => {
                 tabs.forEach(tab => {
-                    // Actualiser l'onglet
+                    // Refresh the Gmail tabs
                     browser.tabs.reload(tab.id, { bypassCache: true });
                 });
 
-                // Afficher un message d'avertissement
+                // Sometimes the tabs are not reloaded, show a warning
                 const warning = document.getElementById('warning');
                 warning.style.display = 'block';
                 setTimeout(() => {
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Traduction des éléments
+    // Translate the page
     document.querySelectorAll('[data-i18n]').forEach(elem => {
         const key = elem.getAttribute('data-i18n');
         const message = browser.i18n.getMessage(key);
