@@ -48,11 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const key = elem.getAttribute('data-i18n');
         const message = browser.i18n.getMessage(key);
         if (message) {
-            if (elem.tagName === 'TITLE' || elem.tagName === 'H1') {
-                elem.textContent = message;
-            } else {
-                elem.innerHTML = message;
-            }
+            elem.textContent = message;
         }
     });
 
