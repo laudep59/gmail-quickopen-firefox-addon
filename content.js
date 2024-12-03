@@ -1,7 +1,8 @@
+// Pour stocker les lignes déjà traitées
 const processedRows = new Set();
-let initialized = false; // Drapeau pour vérifier si initialize a déjà été exécutée
 
 function addButton(row) {
+
     // Vérifiez si le bouton existe déjà
     if (row.querySelector('.custom-button')) return;
 
@@ -9,13 +10,15 @@ function addButton(row) {
     const button = document.createElement('button');
     button.className = 'custom-button';
     button.style.marginLeft = '10px';
+    button.style.cursor = 'pointer'; // Ajoutez le curseur de type "main"
 
-    // Obtenez le texte du bouton depuis les messages de traduction
-    const message = browser.i18n.getMessage('open_button');
+    // Obteneir le texte du bouton depuis les messages de traduction
+    const message = browser.i18n.getMessage('openButton');
     button.textContent = message;
 
-    // Ajoutez un écouteur d'événements
+    // Ajouter un écouteur d'événements
     button.addEventListener('click', (event) => {
+
         event.stopPropagation(); // Empêche les éléments parents d'exécuter leur code
         event.preventDefault();  // Empêche le comportement par défaut
 
@@ -29,6 +32,7 @@ function addButton(row) {
             });
             parentElement.dispatchEvent(shiftClickEvent);
         }
+
     });
 
     // Ajoutez le bouton à la ligne
@@ -38,68 +42,72 @@ function addButton(row) {
         li.appendChild(button);
         toolbar.appendChild(li);
     }
+
 }
 
+// Recherchez les lignes existantes et ajoutez des boutons
 function processNewRows(rows) {
     rows.forEach(row => {
         if (!processedRows.has(row)) {
-            addButton(row);
             processedRows.add(row);
+            row.addEventListener('mouseover', () => {
+                if (!row.querySelector('.custom-button')) {
+                    addButton(row);
+                }
+            });
         }
     });
 }
 
-// Fonction pour observer les mutations
+// Fonction pour observer les mutations du dom
 function observeMutations() {
+
     const observer = new MutationObserver(mutations => {
+    
         const newRows = new Set();
         mutations.forEach(mutation => {
             mutation.addedNodes.forEach(node => {
                 if (node.nodeType === 1) {
+
+                    // Vérifier si le nœud ajouté est un div avec role="alert"
+                    if (node.matches('div[role="alert"]')) {
+                        browser.storage.local.get('hideAlerts').then(result => {
+                            if (result.hideAlerts) {
+                                node.style.visibility = 'hidden';
+                                node.style.setProperty('visibility', 'hidden', 'important');
+                            }
+                        });
+                    }
+
+                    // Un node représentant une ligne / mail
                     if (node.matches('tr[id^=":"]')) {
                         newRows.add(node);
                     } else {
                         node.querySelectorAll('tr[id^=":"]').forEach(newRow => newRows.add(newRow));
                     }
+
                 }
             });
+
+            // En cas de modification d'un attribut
             if (mutation.type === 'attributes' && mutation.target.matches('tr[id^=":"]')) {
                 newRows.add(mutation.target);
             }
+
         });
+
+        // Traitez les nouvelles lignes
         if (newRows.size > 0) {
             processNewRows(Array.from(newRows));
         }
+
     });
-
-    // Configurer l'observateur pour surveiller les ajouts et les modifications de nœuds
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-        attributes: true
-    });
-}
-
-function initialize() {
-    if (initialized) return; // Vérifiez si initialize a déjà été exécutée
-    initialized = true; // Marquez initialize comme exécutée
-
-    console.log('[Gmail Quick Open] Loaded content');
-    // Ajoutez les boutons aux lignes existantes
-    const existingRows = document.querySelectorAll('tr[id^=":"]');
-    processNewRows(existingRows);
 
     // Commencez à observer les mutations
-    observeMutations();
+    const config = { childList: true, subtree: true, attributes: true };
+    observer.observe(document.body, config);
+    
 }
 
-// Exécutez la fonction après le chargement de la page
-window.addEventListener('load', initialize);
-
-// Exécutez la fonction après 5 secondes si l'événement 'load' n'a pas été déclenché
-setTimeout(() => {
-    if (!initialized) {
-        console.log("[Gmail Quick Open] Loaded by timeout");
-        initialize();
-    }
-}, 5000);
+// Initialisez l'observation des mutations
+observeMutations();

@@ -1,5 +1,26 @@
 {
-    "open_button": {
+    "extensionName": {
+        "message": "Gmail Quick Open"
+    },
+    "extensionDescription": {
+        "message": "Ouvrir l'email de Gmail dans une nouvelle fenêtre"
+    },
+    "maximizeAutomatically": {
+        "message": "Maximiser la fenêtre"
+    },
+    "hideAlerts": {
+        "message": "Masquer les alertes"
+    },
+    "optionsTitle": {
+        "message": "Options"
+    },
+    "openButton": {
         "message": "Ouvrir"
+    },
+    "applyButton": {
+        "message": "Appliquer"
+    },
+    "warning": {
+        "message": "👉 Il est conseillé de fermer et de rouvrir les onglets Gmail afin d'appliquer les modifications."
     }
 }

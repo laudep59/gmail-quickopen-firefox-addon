@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title data-i18n="optionsTitle"></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: small;
+            width: 250px;
+            height: 200px;
+            background-color: #42414D;
+            color: white;
+            display: flex;
+            align-items: center;
+            margin: 0; 
+            padding: 15px;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+        }
+        .container img {
+            width: 48px;
+            height: 48px;
+            margin-right: 10px;
+        }
+        .container div {
+            display: flex;
+            flex-direction: column;
+        }
+        h1 {
+            font-size: 1.2em;
+        }
+        label {
+            margin: 0; 
+        }
+        button {
+            margin-top: 10px;
+            padding: 5px;
+            cursor: pointer;
+        }
+        #warning {
+            margin-top: 10px;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="icons/ico-48.png" alt="icon">
+        <div>
+            <h1><span data-i18n="optionsTitle"></span></h1>
+            <label>
+                <input type="checkbox" id="maximizeCheckbox">
+                <span data-i18n="maximizeAutomatically"></span>
+            </label><br/>
+            <label>
+                <input type="checkbox" id="hideAlertsCheckbox">
+                <span data-i18n="hideAlerts"></span>
+            </label><br/>
+            <button id="applyButton" disabled="true" data-i18n="applyButton">Appliquer</button>
+            <div id="warning" style="display: none;" data-i18n="warning"></div>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>

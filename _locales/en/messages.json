@@ -1,5 +1,26 @@
 {
+    "extensionName": {
+        "message": "Gmail Quick Open"
+    },
+    "extensionDescription": {
+        "message": "Open Gmail's email in a new window"
+    },
+    "maximizeAutomatically": {
+        "message": "Maximize the window"
+    },
+    "hideAlerts": {
+        "message": "Masquer les alertes"
+    },
+    "optionsTitle": {
+        "message": "Options"
+    },
     "open_button": {
         "message": "Open"
+    },
+    "apply_button": {
+        "message": "Save and apply"
+    },
+    "warning": {
+        "message": "👉 It's recommended to close and reopen Gmail tabs to apply the changes."
     }
 }
