@@ -1,20 +1,15 @@
 # Gmail QuickOpen Firefox Addon
 
 ## Description
-Gmail QuickOpen is a Firefox addon that allows you to quickly open your Gmail e-mails with a single click. This addon is designed to save you time and is a workaround to the removal of the double-click to open in a new Gmail window (replaced by Google with “SHIFT + CLICK”)..
+Gmail QuickOpen is a Firefox addon that allows you to quickly open your Gmail emails in another window with a single click. This addon is designed to save you time and is a workaround to the removal of the double-click to open in a new Gmail window (replaced by Google with “SHIFT + CLICK”)..
 It adds an "Open" button on the list of messages allowing you to open your messages in another window.
-Other options allow you to remove "Alerts" ("Conversation placed in ..." etc.), display e-mail on a maximized window...
+Other options allow you to remove some "Alerts" ("Conversation placed in ..." etc.), display email on a maximized window...
 
 ## Features
-- One-Click open an e-mail in another window
+- One-Click open an email in another window
 - Remove Gmail alerts
 - Lightweight and fast
 - Easy to install and use
-
-## Installation
-1. Download the addon from the [Firefox Add-ons Store](https://addons.mozilla.org/).
-2. Click on "Add to Firefox".
-3. Follow the prompts to install the addon.
 
 ## Usage
 1. After installation, you will see a Gmail icon in your Firefox toolbar to manage options.
