@@ -7,7 +7,7 @@ Other options allow you to remove some "Alerts" ("Conversation placed in ..." et
 
 ## Features
 - One-Click open an email in another window
-- Remove Gmail alerts
+- Remove some Gmail alerts
 - Lightweight and fast
 - Easy to install and use
 
